@@ -1,5 +1,6 @@
 import configparser
 import os
+from logger import Logger
 
 
 class Configuration():
@@ -11,17 +12,22 @@ class Configuration():
         return config
         
     @staticmethod
-    def CreateDefaultConfig():
+    def createDefaultConfig():
         config = Configuration.DeafaultConfig()
         
         with open("config.ini", "w") as config_file:
             config.write(config_file)
     
     @staticmethod
-    def LoadConfig():
+    def loadConfig():
         config = configparser.ConfigParser()
         
         if os.path.exists("config.ini"):
+            Logger.info("Loading config.ini file.")
             config.read("config.ini")
+            Logger.info("Configuration loaded.")
         else:
-            Configuration.CreateDefaultConfig()
+            Logger.info("config.ini file not found.")
+            Logger.info("Creating default app config.")
+            Configuration.createDefaultConfig()
+            Logger.info("Default configuration created.")
